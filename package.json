@@ -1,39 +1,82 @@
 {
-  "name": "@medv/finder",
-  "version": "4.0.2",
+  "name": "@sec-ant/finder",
   "description": "CSS Selector Generator",
+  "private": false,
+  "version": "0.1.0",
   "type": "module",
-  "main": "finder.js",
-  "types": "finder.d.ts",
   "files": [
-    "*.d.ts",
-    "*.js"
+    "./dist"
   ],
-  "scripts": {
-    "fmt": "prettier --write finder.ts",
-    "fmt:check": "prettier --check finder.ts",
-    "build": "tsc",
-    "test": "tsc && vitest"
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/es/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sec-ant/finder.git"
   },
-  "devDependencies": {
-    "css.escape": "^1.5.1",
-    "jsdom": "^25.0.1",
-    "prettier": "^3.4.2",
-    "typescript": "5.7.2",
-    "vitest": "^2.1.8"
+  "homepage": "https://github.com/Sec-ant/finder",
+  "bugs": {
+    "url": "https://github.com/Sec-ant/finder/issues",
+    "email": "zezhengwu@proton.me"
   },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "endOfLine": "lf"
-  },
-  "author": "Anton Medvedev <anton@medv.io>",
-  "license": "MIT",
-  "homepage": "https://github.com/antonmedv/finder",
-  "repository": "antonmedv/finder",
   "keywords": [
     "css",
     "selector",
     "generator"
-  ]
+  ],
+  "author": {
+    "name": "Ze-Zheng Wu"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "update-hooks": "simple-git-hooks",
+    "bump": "tsx ./scripts/bump.ts",
+    "dev": "vite",
+    "lint": "biome lint .",
+    "type-check": "tsc -p ./tsconfig.pkg.json --noEmit --emitDeclarationOnly false",
+    "format:prettier": "pretty-quick",
+    "format:biome": "biome format . --write",
+    "format": "pnpm -s format:prettier && pnpm -s format:biome",
+    "check:biome": "biome check --write .",
+    "check": "pnpm -s format:prettier && pnpm -s check:biome",
+    "clear:dist": "rimraf dist",
+    "prebuild": "pnpm -s check && pnpm -s type-check && pnpm -s clear:dist",
+    "build:es": "vite build",
+    "build:cjs": "tsx ./scripts/build-cjs.ts",
+    "build:iife": "tsx ./scripts/build-iife.ts",
+    "build": "conc \"pnpm:build:es\" \"pnpm:build:cjs\" \"pnpm:build:iife\"",
+    "postbuild:es": "tsc -p ./tsconfig.pkg.json --declarationDir ./dist/es",
+    "postbuild:cjs": "tsc -p ./tsconfig.pkg.json --declarationDir ./dist/cjs",
+    "preview": "vite preview",
+    "prepublishOnly": "pnpm -s build",
+    "browsers": "playwright install chromium firefox webkit",
+    "test": "pnpm -s browsers && vitest --hideSkippedTests",
+    "test:ui": "pnpm -s browsers && vitest --hideSkippedTests --ui"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^2.29.4",
+    "@types/node": "^22.15.18",
+    "@vitest/browser": "^3.1.3",
+    "@vitest/coverage-istanbul": "^3.1.3",
+    "@vitest/ui": "3.1.3",
+    "concurrently": "^9.1.2",
+    "lint-staged": "^16.0.0",
+    "npm-check-updates": "^18.0.1",
+    "playwright": "^1.52.0",
+    "prettier": "^3.5.3",
+    "pretty-quick": "^4.1.1",
+    "rimraf": "^6.0.1",
+    "simple-git-hooks": "^2.13.0",
+    "tsx": "^4.19.4",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.3"
+  },
+  "dependencies": {
+    "main-thread-scheduling": "^14.3.0"
+  },
+  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }

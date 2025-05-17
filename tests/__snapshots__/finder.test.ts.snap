@@ -134,7 +134,7 @@ exports[`deployer 1`] = `
   ".builtin > h2",
   ".builtin > .grid",
   ".builtin > .grid > div:nth-of-type(1)",
-  ".grid > div:nth-of-type(1) > img",
+  "div:nth-of-type(1) > img",
   ".builtin div:nth-of-type(2)",
   "div:nth-of-type(2) > img",
   ".builtin div:nth-of-type(3)",
@@ -198,8 +198,6 @@ exports[`deployer 1`] = `
   "body > script:nth-of-type(1)",
   "body > script:nth-of-type(2)",
   "noscript",
-  "noscript > div",
-  "noscript img",
 ]
 `;
 
@@ -744,7 +742,6 @@ exports[`github 1`] = `
 
 exports[`google 1`] = `
 [
-  "noscript a",
   "div:nth-of-type(1) > a:nth-of-type(2)",
   ".logo > a",
   "[data-alt="true"] > div:nth-of-type(2) > a",
@@ -1409,9 +1406,7 @@ exports[`stripe 1`] = `
   "div:nth-of-type(4) li:nth-of-type(3) > a",
   "#site-analytics-config",
   "noscript:nth-of-type(1)",
-  "noscript > img",
   "noscript:nth-of-type(2)",
-  "iframe",
   "body > script:nth-of-type(2)",
   "body > script:nth-of-type(3)",
   ".cookie-notification-container",

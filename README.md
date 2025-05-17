@@ -1,32 +1,33 @@
-# finder
+# @sec-ant/finder
 
-![finder](https://medv.io/assets/finder.png)
+[![Test](https://github.com/sec-ant/finder/actions/workflows/test.yml/badge.svg)](https://github.com/sec-ant/finder/actions/workflows/test.yml)
 
-**The CSS Selector Generator**
+**The Asynchronous CSS Selector Generator**
 
-[![Test](https://github.com/antonmedv/finder/actions/workflows/test.yml/badge.svg)](https://github.com/antonmedv/finder/actions/workflows/test.yml)
-[![JSR](https://jsr.io/badges/@medv/finder)](https://jsr.io/@medv/finder)
+A fork of [antonmedv/finder](https://github.com/antonmedv/finder) with an asynchronous function signature powered by [astoilkov/main-thread-scheduling](https://github.com/astoilkov/main-thread-scheduling).
 
 ## Features
 
-* Generates **shortest** CSS selectors
-* **Unique** CSS selectors per page
-* Stable and **robust** CSS selectors
-* Size: **1.5kb** (minified & gzipped)
+- Generates **shortest** CSS selectors
+- **Unique** CSS selectors per page
+- Stable and **robust** CSS selectors
+- **Asynchronous** function signature, no frozen UI
+- **ESM**, **CJS** and **IIFE** exports
 
 ## Install
 
 ```bash
-npm install @medv/finder
+npm i @sec-ant/finder
 ```
 
-## Usage 
+## Usage
 
 ```ts
-import { finder } from '@medv/finder';
+import { finder } from "@sec-ant/finder";
 
-document.addEventListener('click', (event) => {
-  const selector = finder(event.target);
+document.addEventListener("click", async (event) => {
+  const selector = await finder(event.target);
+  // Use the selector, e.g., console.log(selector);
 });
 ```
 
@@ -41,7 +42,7 @@ An example of a generated selector:
 ## Configuration
 
 ```js
-const selector = finder(event.target, {
+const selector = await finder(event.target, {
   root: document.body,
   timeoutMs: 1000,
 });
@@ -62,10 +63,10 @@ Function that determines if a class name may be used in a selector. Defaults to 
 You can extend the default behaviour wrapping the `className` function:
 
 ```js
-import { finder, className } from '@medv/finder';
+import { finder, className } from "@medv/finder";
 
 finder(event.target, {
-  className: name => className(name) || name.startsWith('my-class-'),
+  className: (name) => className(name) || name.startsWith("my-class-"),
 });
 ```
 
@@ -80,10 +81,10 @@ Function that determines if an attribute may be used in a selector. Defaults to 
 You can extend the default behaviour wrapping the `attr` function:
 
 ```js
-import { finder, attr } from '@medv/finder';
+import { finder, attr } from "@medv/finder";
 
 finder(event.target, {
-  attr: (name, value) => attr(name, value) || name.startsWith('data-my-attr-'),
+  attr: (name, value) => attr(name, value) || name.startsWith("data-my-attr-"),
 });
 ```
 
@@ -98,6 +99,18 @@ Minimum length of levels in fining selector. Defaults to `3`.
 ### optimizedMinLength
 
 Minimum length for optimising selector. Defaults to `2`.
+
+### maxNumberOfPathChecks
+
+Maximum number of path checks before attempting to generate a selector. Defaults to `Infinity`. This can be used to prevent excessively long computations for complex DOM structures.
+
+### schedulingStrategy
+
+Defines the scheduling strategy for yielding control to the main thread during selector generation. This helps prevent the page from becoming unresponsive during intensive computations. Possible values are `'interactive'`, `'smooth'`, or `'idle'`. Defaults to `'idle'`.
+
+### abortSignal
+
+An `AbortSignal` that can be used to abort the selector finding process. If the signal is aborted, the `finder` function will reject with an "AbortError". This option allows for cancellation of the operation, for example, if the user navigates away or the operation takes too long.
 
 ## License
 
