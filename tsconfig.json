@@ -1,11 +1,15 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2021",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["ES2021", "DOM"],
-    "strict": true,
-    "declaration": true,
-    "noUnusedLocals": true
-  }
+    "types": ["node"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "noEmit": true
+  },
+  "include": ["./scripts", "./vite.config.ts", "./package.json", "tests.bak"],
+  "references": [
+    {
+      "path": "./tsconfig.pkg.json"
+    }
+  ]
 }

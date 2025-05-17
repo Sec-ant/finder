@@ -1,0 +1,17 @@
+docs
+dist
+build
+tests/fixtures/**/*
+*.js
+*.ts
+*.cjs
+*.mjs
+*.cts
+*.mts
+*.d.cts
+*.d.mts
+*.jsx
+*.tsx
+*.json
+*.jsonc
+pnpm-lock.yaml
