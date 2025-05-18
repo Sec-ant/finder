@@ -108,7 +108,7 @@ export interface FinderOptions {
   /** Maximum number of path checks. */
   maxNumberOfPathChecks?: number;
   /** The scheduling strategy for yielding control to the main thread. */
-  schedulingStrategy?: SchedulingStrategy;
+  schedulingStrategy?: SchedulingStrategy | null;
   /** An AbortSignal to allow aborting the operation. */
   abortSignal?: AbortSignal;
 }
@@ -150,7 +150,7 @@ export async function finder(
 
   const startTime = new Date();
   const config: ResolvedFinderOptions = { ...defaultOptions, ...options };
-  const rootDocument = findRootDocument(config.root, defaultOptions); // Cast to satisfy findRootDocument
+  const rootDocument = findRootDocument(config.root, defaultOptions);
 
   let foundPath: Knot[] | undefined;
   let count = 0;
@@ -163,7 +163,9 @@ export async function finder(
     }
     const candidate = iteratorResult.value;
 
-    await yieldOrContinue(config.schedulingStrategy, config.abortSignal);
+    if (config.schedulingStrategy) {
+      await yieldOrContinue(config.schedulingStrategy, config.abortSignal);
+    }
 
     const elapsedTimeMs = new Date().getTime() - startTime.getTime();
     if (
@@ -205,7 +207,9 @@ export async function finder(
     }
     const currentOptimizedPath = iteratorResult.value;
     optimizedPaths.push(currentOptimizedPath);
-    await yieldOrContinue(config.schedulingStrategy, config.abortSignal);
+    if (config.schedulingStrategy) {
+      await yieldOrContinue(config.schedulingStrategy, config.abortSignal);
+    }
   }
 
   if (optimizedPaths.length > 0) {

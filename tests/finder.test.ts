@@ -15,7 +15,7 @@ async function check(
 ) {
   document.documentElement.innerHTML = html;
 
-  const options = {
+  const options: FinderOptions = {
     timeoutMs: Number.POSITIVE_INFINITY,
     maxNumberOfPathChecks: 2_000,
     ...finderOptions,

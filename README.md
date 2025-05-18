@@ -106,7 +106,7 @@ Maximum number of path checks before attempting to generate a selector. Defaults
 
 ### schedulingStrategy
 
-Defines the scheduling strategy for yielding control to the main thread during selector generation. This helps prevent the page from becoming unresponsive during intensive computations. Possible values are `'interactive'`, `'smooth'`, or `'idle'`. Defaults to `'idle'`.
+Defines the scheduling strategy for yielding control to the main thread during selector generation. This helps prevent the page from becoming unresponsive during intensive computations. Possible values are `'interactive'`, `'smooth'`, `'idle'`, or `null`. Defaults to `'idle'`. If `null` is provided, the scheduling strategy will be disabled, and no yielding to the main thread will occur.
 
 ### abortSignal
 
